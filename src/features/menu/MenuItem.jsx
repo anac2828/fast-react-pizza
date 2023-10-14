@@ -1,17 +1,49 @@
 import { formatCurrency } from '../../utils/helpers';
+import Button from '../../ui/Button';
+import { addItem } from '../cart/cartSlice';
+import { useDispatch } from 'react-redux';
 
 function MenuItem({ pizza }) {
-  const { name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
-  // const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
+  const dispatch = useDispatch();
+  const { id, name, unitPrice, ingredients, soldOut, imageUrl } =
+    pizza;
+
+  function handleAddToCart() {
+    // item object needs to be the same structure as the cart initial state
+    const newItem = {
+      pizzaId: id,
+      name,
+      quantity: 1,
+      unitPrice,
+      totalPrice: unitPrice * 1,
+    };
+
+    dispatch(addItem(newItem));
+  }
 
   return (
-    <li>
-      <img src={imageUrl} alt={name} />
-      <div>
-        <p>{name}</p>
-        <p>{ingredients.join(', ')}</p>
-        <div>
-          {!soldOut ? <p>{formatCurrency(unitPrice)}</p> : <p>Sold out</p>}
+    <li className='flex gap-4 py-2'>
+      <img
+        className={`h-24 ${soldOut ? 'opacity-70 grayscale' : ''}`}
+        src={imageUrl}
+        alt={name}
+      />
+      <div className='flex flex-col grow'>
+        <p className='font-medium mt-0.5'>{name}</p>
+        <p className='text-sm italic capitalize text-stone-500'>
+          {ingredients.join(', ')}
+        </p>
+        <div className='flex items-center justify-between mt-auto'>
+          {!soldOut ? (
+            <p className='text-sm'>{formatCurrency(unitPrice)}</p>
+          ) : (
+            <p className='text-sm font-medium uppercase text-stone-500'>
+              Sold out
+            </p>
+          )}
+          <Button onClick={handleAddToCart} type='small'>
+            Add to cart
+          </Button>
         </div>
       </div>
     </li>

@@ -1,9 +1,14 @@
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+export default {
+	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+	theme: {
+		fontFamily: {
+			sans: 'Roboto Mono, mono',
+		},
+		extend: {
+			height: { screen: '100dvh' },
+		},
+	},
+	plugins: [],
 };
