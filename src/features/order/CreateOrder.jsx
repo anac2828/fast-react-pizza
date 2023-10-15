@@ -5,13 +5,14 @@ import {
   useActionData,
   useNavigation,
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { createOrder } from '../../services/apiRestaurant';
 import {
   clearCart,
   getCart,
   getTotalCartPrice,
 } from '../cart/cartSlice';
+import { fetchAddress } from '../user/userSlice';
 import Button from '../../ui/Button';
 import EmptyCart from '../cart/EmptyCart';
 import store from '../../store';
@@ -53,14 +54,16 @@ const stylesInputGroup = 'flex flex-col gap-2 mb-5 sm:flex-row';
 const stylesLabel = 'sm:basis-40';
 
 function CreateOrder() {
-  const username = useSelector((state) => state.user.username);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
   const formErrors = useActionData();
-  const [withPriority, setWithPriority] = useState(false);
   const cart = useSelector(getCart);
-
+  const username = useSelector((state) => state.user.username);
   const totalCartPrice = useSelector(getTotalCartPrice);
+  const [withPriority, setWithPriority] = useState(false);
+
+  const isSubmitting = navigation.state === 'submitting';
+
   const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
   const totalPrice = totalCartPrice + Math.floor(priorityPrice);
 
@@ -71,7 +74,9 @@ function CreateOrder() {
       <h2 className='mb-8 text-xl font-semibold'>
         Ready to order? Let&apos;s go!
       </h2>
-
+      <button onClick={() => dispatch(fetchAddress())}>
+        Get position
+      </button>
       {/* React-router-dom form */}
       {/* <Form method='POST' action='/order/new'> */}
       <Form method='POST' action=''>

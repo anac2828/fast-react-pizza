@@ -1,29 +1,41 @@
-// function getPosition() {
-//   return new Promise(function (resolve, reject) {
-//     navigator.geolocation.getCurrentPosition(resolve, reject);
-//   });
-// }
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getAddress } from '../../services/apiGeocoding';
 
-import { createSlice } from '@reduxjs/toolkit';
+function getPosition() {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+}
 
-// async function fetchAddress() {
-//   // 1) We get the user's geolocation position
-//   const positionObj = await getPosition();
-//   const position = {
-//     latitude: positionObj.coords.latitude,
-//     longitude: positionObj.coords.longitude,
-//   };
+// createAsyncThunk news the action string and async function that will return the payload. The action will be used by redux internally.
+// It will create three action types. That will need to be connected to the reducer.
+// This is the action created that will be dispatched
+export const fetchAddress = createAsyncThunk(
+  'user/fetchAddress',
+  async function () {
+    // 1) We get the user's geolocation position
+    const positionObj = await getPosition();
+    const position = {
+      latitude: positionObj.coords.latitude,
+      longitude: positionObj.coords.longitude,
+    };
 
-//   // 2) Then we use a reverse geocoding API to get a description of the user's address, so we can display it the order form, so that the user can correct it if wrong
-//   const addressObj = await getAddress(position);
-//   const address = `${addressObj?.locality}, ${addressObj?.city} ${addressObj?.postcode}, ${addressObj?.countryName}`;
+    // 2) Then we use a reverse geocoding API to get a description of the user's address, so we can display it the order form, so that the user can correct it if wrong
+    const addressObj = await getAddress(position);
+    const address = `${addressObj?.locality}, ${addressObj?.city} ${addressObj?.postcode}, ${addressObj?.countryName}`;
 
-//   // 3) Then we return an object with the data that we are interested in
-//   return { position, address };
-// }
+    // 3) Then we return an object with the data that we are interested in
+    // payload of fulfiled state
+    return { position, address };
+  }
+);
 
 const initialState = {
   username: '',
+  status: 'idle',
+  position: {},
+  address: '',
+  error: '',
 };
 
 const userSlice = createSlice({
@@ -34,6 +46,22 @@ const userSlice = createSlice({
       state.username = action.payload;
     },
   },
+  // fetchAddress.pending is created the they createThunk funcition
+  extraReducers: (builder) =>
+    builder
+      .addCase(fetchAddress.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchAddress.fulfilled, (state, action) => {
+        // payload is returned from the fedtAddress function
+        state.position = action.payload.position;
+        state.adress = action.payload.address;
+        state.status = 'idle';
+      })
+      .addCase(fetchAddress.rejected, (state, action) => {
+        state.status = 'error';
+        state.error = action.error.message;
+      }),
 });
 
 // named export
