@@ -46,6 +46,7 @@ const userSlice = createSlice({
       state.username = action.payload;
     },
   },
+  // recepie for creating thunks
   // fetchAddress.pending is created the they createThunk funcition
   extraReducers: (builder) =>
     builder
@@ -55,12 +56,13 @@ const userSlice = createSlice({
       .addCase(fetchAddress.fulfilled, (state, action) => {
         // payload is returned from the fedtAddress function
         state.position = action.payload.position;
-        state.adress = action.payload.address;
+        state.address = action.payload.address;
         state.status = 'idle';
       })
-      .addCase(fetchAddress.rejected, (state, action) => {
+      .addCase(fetchAddress.rejected, (state) => {
         state.status = 'error';
-        state.error = action.error.message;
+        state.error =
+          'There was a problem getting your addess. Please fill in manually.';
       }),
 });
 

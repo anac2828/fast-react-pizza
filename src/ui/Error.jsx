@@ -6,8 +6,8 @@ function Error() {
   const error = useRouteError();
 
   return (
-    <div>
-      <h1>Something went wrong 😢</h1>
+    <div className='grid gap-1 text-center place-content-center mt-9'>
+      <h1 className='text-3xl'>Something went wrong 😢</h1>
       <p>{error.data || error.message}</p>
       <LinkButton to='-1'>&larr; Go back</LinkButton>
     </div>
