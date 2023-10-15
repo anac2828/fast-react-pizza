@@ -51,6 +51,7 @@ function Order() {
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
   const {
     status,
+    id,
     priority,
     priorityPrice,
     orderPrice,
@@ -62,7 +63,7 @@ function Order() {
   return (
     <div className='px-4 py-6 space-y-8'>
       <div className='flex flex-wrap items-center justify-between gap-2'>
-        <h2 className='text-xl font-semibold'>Status</h2>
+        <h2 className='text-xl font-semibold'>Order #{id} status</h2>
 
         <div className='space-x-2'>
           {priority && (
@@ -90,7 +91,7 @@ function Order() {
       </div>
       <ul className='border-b divide-y border-top divide-stone-200'>
         {cart.map((item) => (
-          <OrderItem item={item} key={item.id} />
+          <OrderItem item={item} key={item.pizzaId} />
         ))}
       </ul>
       <div className='px-6 py-5 space-y-2 bg-stone-200'>

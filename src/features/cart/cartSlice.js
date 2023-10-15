@@ -21,20 +21,26 @@ const cartSlice = createSlice({
     increaseItemQty(state, action) {
       // payload = pizzaId
       //   1 - Find item to update
-      const item = state.cart.filter(
+      const item = state.cart.find(
         (item) => item.pizzaId === action.payload
       );
       //   2 - Update quatity
       item.quantity++;
+      item.totalPrice = item.quantity * item.unitPrice;
     },
     decreaseItemQty(state, action) {
       // payload = pizzaId
       //   1 - Find item to update
-      const item = state.cart.filter(
+      const item = state.cart.find(
         (item) => item.pizzaId === action.payload
       );
       //   2 - Update quatity
       item.quantity--;
+      item.totalPrice = item.quantity * item.unitPrice;
+
+      if (item.quantity === 0)
+        // calls the delete function
+        cartSlice.caseReducers.deleteItem(state, action);
     },
     clearCart(state) {
       state.cart = [];
