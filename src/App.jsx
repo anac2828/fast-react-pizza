@@ -1,4 +1,7 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom';
 import Home from './ui/Home';
 import Menu, { loader as menuLoader } from './features/menu/Menu';
 import Cart from './features/cart/Cart';
@@ -9,7 +12,7 @@ import CreateOrder, {
 import Order, { loader as orderLoader } from './features/order/Order';
 import AppLayout from './ui/AppLayout';
 
-// This will enable us to fetch data from an API with react router v6
+// This will enable us to fetch data from an API with react router v6.
 // children are the nested routes
 const router = createBrowserRouter([
   // errors in nested routes will bubble up to AppLayout
