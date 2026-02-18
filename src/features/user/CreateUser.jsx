@@ -1,20 +1,25 @@
-import { useState } from 'react';
-import Button from '../../ui/Button';
-import { useDispatch } from 'react-redux';
-import { updateName } from './userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import Button from '../../ui/Button'
+import { useDispatch } from 'react-redux'
+import { updateName } from './userSlice'
+import { useNavigate } from 'react-router-dom'
 
+// Component displays in Home component to create a user by entering their name.
 function CreateUser() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [username, setUsername] = useState('');
+  // useDispatch to dispatch actions to the store
+  const dispatch = useDispatch()
+  // useNavigate to navigate to the menu page after creating the user
+  const navigate = useNavigate()
+  // Use local state for form inputs
+  const [username, setUsername] = useState('')
 
+  // This is updating state in the store by using react-redux.
   function handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (!username) return;
-    dispatch(updateName(username));
-    navigate('/menu');
+    if (!username) return
+    dispatch(updateName(username))
+    navigate('/menu')
   }
 
   return (
@@ -31,13 +36,14 @@ function CreateUser() {
         className='mb-8 input w-72'
       />
 
+      {/* Button will display when there is a username in the input field */}
       {username !== '' && (
         <div>
           <Button type='primary'>Start ordering</Button>
         </div>
       )}
     </form>
-  );
+  )
 }
 
-export default CreateUser;
+export default CreateUser

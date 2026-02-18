@@ -1,54 +1,71 @@
-const API_URL = 'https://react-fast-pizza-api.onrender.com/api';
+const API_URL = 'https://react-fast-pizza-api.onrender.com/api'
 
+// *** GET MENU ****
 export async function getMenu() {
-  const res = await fetch(`${API_URL}/menu`);
+  // FETCH MENU DATA FROM API
+  const res = await fetch(`${API_URL}/menu`)
 
-  // fetch won't throw error on 400 errors (e.g. when URL is wrong), so we need to do it manually. This will then go into the catch block, where the message is set
-  if (!res.ok) throw Error('Failed getting menu');
+  // ERROR HANDLING
+  if (!res.ok) throw Error('Failed getting menu')
 
-  const { data } = await res.json();
-  return data;
+  // RETURN DATA FROM API
+  const { data } = await res.json()
+  return data
 }
 
+// *** GET ORDER ****
 export async function getOrder(id) {
-  const res = await fetch(`${API_URL}/order/${id}`);
-  if (!res.ok) throw Error(`Couldn't find order #${id}`);
+  // FETCH MENU DATA FROM API
+  const res = await fetch(`${API_URL}/order/${id}`)
 
-  const { data } = await res.json();
-  return data;
+  // ERROR HANDLING
+  if (!res.ok) throw Error(`Couldn't find order #${id}`)
+
+  // RETURN DATA FROM API
+  const { data } = await res.json()
+  return data
 }
 
+// *** CREATE ORDER ****
 export async function createOrder(newOrder) {
   try {
+    // POST NEW ORDER TO API
     const res = await fetch(`${API_URL}/order`, {
       method: 'POST',
       body: JSON.stringify(newOrder),
       headers: {
         'Content-Type': 'application/json',
       },
-    });
+    })
 
-    if (!res.ok) throw Error();
-    const { data } = await res.json();
-    return data;
+    // ERROR HANDLING
+    if (!res.ok) throw Error()
+
+    // RETURN DATA FROM API
+    const { data } = await res.json()
+    return data
   } catch {
-    throw Error('Failed creating your order');
+    throw Error('Failed creating your order')
   }
 }
 
+// *** UPDATE ORDER ****
 export async function updateOrder(id, updateObj) {
   try {
+    // UPDATE ORDER IN API
     const res = await fetch(`${API_URL}/order/${id}`, {
       method: 'PATCH',
       body: JSON.stringify(updateObj),
       headers: {
         'Content-Type': 'application/json',
       },
-    });
+    })
 
-    if (!res.ok) throw Error();
-    // We don't need the data, so we don't return anything
+    // ERROR HANDLING
+    if (!res.ok) throw Error()
+
+    // NO NEED TO RETURN DATA FROM API
   } catch (err) {
-    throw Error('Failed updating your order');
+    throw Error('Failed updating your order')
   }
 }

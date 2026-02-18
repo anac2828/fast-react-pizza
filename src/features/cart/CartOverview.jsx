@@ -1,12 +1,14 @@
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getTotalCartQty, getTotalCartPrice } from './cartSlice';
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { getTotalCartQty, getTotalCartPrice } from './cartSlice'
 
+// Component displays at the bottom of the screen when a pizza is added to the cart.
 function CartOverview() {
-  const totalQty = useSelector(getTotalCartQty);
-  const totalPrice = useSelector(getTotalCartPrice);
+  const totalQty = useSelector(getTotalCartQty)
+  const totalPrice = useSelector(getTotalCartPrice)
 
-  if (!totalQty) return null;
+  // Will keep the component hidden if there are no pizzas in the cart.
+  if (!totalQty) return null
 
   return (
     <div className='flex items-center justify-between px-4 py-4 text-sm uppercase bg-stone-800 text-stone-200 sm:px-6 md:text-base'>
@@ -17,7 +19,7 @@ function CartOverview() {
 
       <Link to='/cart'>Open Cart &rarr;</Link>
     </div>
-  );
+  )
 }
 
-export default CartOverview;
+export default CartOverview

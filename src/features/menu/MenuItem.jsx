@@ -1,16 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { formatCurrency } from '../../utils/helpers';
-import Button from '../../ui/Button';
-import { addItem, getCurrentQtyById } from '../cart/cartSlice';
-import DeleteItem from '../cart/DeleteItem';
-import UpdateItemQty from '../cart/UpdateItemQty';
+import { useDispatch, useSelector } from 'react-redux'
+import { formatCurrency } from '../../utils/helpers'
+import Button from '../../ui/Button'
+import { addItem, getCurrentQtyById } from '../cart/cartSlice'
+import DeleteItem from '../cart/DeleteItem'
+import UpdateItemQty from '../cart/UpdateItemQty'
 
 function MenuItem({ pizza }) {
-  const dispatch = useDispatch();
-  const { id, name, unitPrice, ingredients, soldOut, imageUrl } =
-    pizza;
-  const currentQty = useSelector(getCurrentQtyById(id));
-  const isInCart = currentQty > 0;
+  const dispatch = useDispatch()
+  const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza
+  const currentQty = useSelector(getCurrentQtyById(id))
+  const isInCart = currentQty > 0
 
   function handleAddToCart() {
     // item object needs to be the same structure as the cart initial state
@@ -20,9 +19,9 @@ function MenuItem({ pizza }) {
       quantity: 1,
       unitPrice,
       totalPrice: unitPrice * 1,
-    };
+    }
 
-    dispatch(addItem(newItem));
+    dispatch(addItem(newItem))
   }
 
   return (
@@ -38,6 +37,7 @@ function MenuItem({ pizza }) {
           {ingredients.join(', ')}
         </p>
         <div className='flex items-center justify-between mt-auto'>
+          {/* Show price is pizza is not sold out */}
           {!soldOut ? (
             <p className='text-sm'>{formatCurrency(unitPrice)}</p>
           ) : (
@@ -45,14 +45,14 @@ function MenuItem({ pizza }) {
               Sold out
             </p>
           )}
-          {/* will show if pizza is in the cart */}
+          {/* Show Delete and Update Qty buttons will show if pizza is in the cart */}
           {isInCart && (
             <div className='flex items-center gap-3 sm:gap-8'>
               <UpdateItemQty quantity={currentQty} pizzaId={id} />
               <DeleteItem id={id} />
             </div>
           )}
-          {/* will prevent from two of the same pizzas to be added to the cart */}
+          {/* Show ADD TO CART BUTTON if pizza is not in the cart or not sold out. */}
           {!soldOut && !isInCart && (
             <Button onClick={handleAddToCart} type='small'>
               Add to cart
@@ -61,7 +61,7 @@ function MenuItem({ pizza }) {
         </div>
       </div>
     </li>
-  );
+  )
 }
 
-export default MenuItem;
+export default MenuItem
