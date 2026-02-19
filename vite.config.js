@@ -7,6 +7,6 @@ export default defineConfig(({ command }) => {
   return {
     plugins: [react(), eslint()],
     build: { outDir: 'dist' },
-    base: command === 'serve' ? '/' : '/fast-react-pizza',
+    base: command === 'serve' ? '/' : '/fast-react-pizza', //use this when using rea
   }
 })

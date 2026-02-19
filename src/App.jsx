@@ -9,6 +9,7 @@ import CreateOrder, {
 } from './features/order/CreateOrder'
 import Order, { loader as orderLoader } from './features/order/Order'
 import { action as updateOrderAction } from './features/order/UpdateOrder'
+import { BASE_URL } from './utils/config'
 
 // Using createBrowserRouter will enable us to fetch data from an API or a form when using react router v6.4
 const router = createBrowserRouter([
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
     errorElement: <Error />, // Errors from nested routes will bubble up to this error element unless they have their own errorElement defined
     // Nested routes will be rendered inside the <Outlet /> component in AppLayout
     children: [
-      { path: '/', element: <Home /> },
+      { path: BASE_URL, element: <Home /> },
       {
         path: '/menu',
         element: <Menu />,
